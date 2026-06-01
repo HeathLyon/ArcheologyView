@@ -1,82 +1,32 @@
 import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
-import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
-import { GLTFLoader } from "https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
-let scene, camera, renderer, controls;
-let currentModel = null;
 
-init();
-loadModel("models/example.glb");
-animate();
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x222222);
 
-function init() {
-  const container = document.getElementById("viewer");
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
 
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x111111);
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-  camera = new THREE.PerspectiveCamera(
-    60,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
+// cube test
+const geometry = new THREE.BoxGeometry();
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
 
-  camera.position.set(2, 2, 2);
-
-  renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  container.appendChild(renderer.domElement);
-
-  controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-
-  const light = new THREE.AmbientLight(0xffffff, 1);
-  scene.add(light);
-
-  const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-  dirLight.position.set(5, 10, 7);
-  scene.add(dirLight);
-
-  window.addEventListener("resize", onWindowResize);
-}
-
-function loadModel(path) {
-  const loader = new GLTFLoader();
-
-  loader.load(
-    path,
-    (gltf) => {
-      if (currentModel) scene.remove(currentModel);
-
-      currentModel = gltf.scene;
-      scene.add(currentModel);
-
-      document.getElementById("modelName").innerText = path;
-
-      const box = new THREE.Box3().setFromObject(currentModel);
-      const size = box.getSize(new THREE.Vector3()).length();
-      const center = box.getCenter(new THREE.Vector3());
-
-      controls.target.copy(center);
-      camera.position.set(center.x + size, center.y + size, center.z + size);
-      controls.update();
-    },
-    undefined,
-    (err) => {
-      console.error("GLB LOAD FAILED:", err);
-      document.getElementById("modelName").innerText = "FAILED TO LOAD MODEL";
-    }
-  );
-}
+camera.position.z = 2;
 
 function animate() {
   requestAnimationFrame(animate);
-  controls.update();
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
   renderer.render(scene, camera);
 }
 
-function onWindowResize() {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-}
+animate();
