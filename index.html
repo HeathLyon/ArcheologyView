@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BYU Archaeology 3D Viewer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div id="ui">
+    <h2>Artifact Viewer</h2>
+
+    <div id="info">
+      <p><strong>Model:</strong> <span id="modelName">None</span></p>
+    </div>
+
+    <textarea id="notes" placeholder="Notes about selected point or artifact..."></textarea>
+
+    <button id="saveBtn">Save Note (placeholder)</button>
+  </div>
+
+  <div id="viewer">this is some stuff</div>
+
+  <!-- Three.js -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
+
+  <script src="app.js"></script>
+</body>
+</html>
