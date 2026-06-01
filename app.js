@@ -1,3 +1,6 @@
+import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader } from "https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
 let scene, camera, renderer, controls;
 let currentModel = null;
 
@@ -24,10 +27,9 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   container.appendChild(renderer.domElement);
 
-  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
 
-  // Light
   const light = new THREE.AmbientLight(0xffffff, 1);
   scene.add(light);
 
@@ -39,7 +41,7 @@ function init() {
 }
 
 function loadModel(path) {
-  const loader = new THREE.GLTFLoader();
+  const loader = new GLTFLoader();
 
   loader.load(
     path,
@@ -51,7 +53,6 @@ function loadModel(path) {
 
       document.getElementById("modelName").innerText = path;
 
-      // Auto-frame model
       const box = new THREE.Box3().setFromObject(currentModel);
       const size = box.getSize(new THREE.Vector3()).length();
       const center = box.getCenter(new THREE.Vector3());
@@ -61,7 +62,10 @@ function loadModel(path) {
       controls.update();
     },
     undefined,
-    (err) => console.error(err)
+    (err) => {
+      console.error("GLB LOAD FAILED:", err);
+      document.getElementById("modelName").innerText = "FAILED TO LOAD MODEL";
+    }
   );
 }
 
