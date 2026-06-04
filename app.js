@@ -3,30 +3,9 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 /* -----------------------------
-   ARTIFACT DATABASE
+   ARTIFACT DATABASE (FALLBACK ONLY)
 ------------------------------*/
-const artifacts = {
-    "example.glb": {
-        name: "Example Artifact",
-        classification: "Unknown Structure",
-        location: "Excavation Site Alpha",
-        notes: "Preliminary scans suggest artificial construction."
-    },
-
-    "artifact2.glb": {
-        name: "Stone Tablet",
-        classification: "Inscribed Relic",
-        location: "Sector B",
-        notes: "Contains weathered markings."
-    },
-
-    "artifact3.glb": {
-        name: "Metal Device",
-        classification: "Technological Object",
-        location: "Deep Chamber",
-        notes: "Material composition unknown."
-    }
-};
+let artifacts = [];
 
 /* -----------------------------
    DOM ELEMENTS
@@ -67,12 +46,9 @@ const dir = new THREE.DirectionalLight(0xffffff, 1);
 dir.position.set(5, 10, 5);
 scene.add(dir);
 
-/* DEBUG AXES (IMPORTANT) */
+/* DEBUG */
 scene.add(new THREE.AxesHelper(2));
-
-/* GRID */
-const grid = new THREE.GridHelper(10, 10);
-scene.add(grid);
+scene.add(new THREE.GridHelper(10, 10));
 
 /* LOADER */
 const loader = new GLTFLoader();
@@ -80,18 +56,24 @@ const loader = new GLTFLoader();
 let currentModel = null;
 
 /* -----------------------------
-   LOAD FUNCTION
+   LOAD ARTIFACT MODEL
 ------------------------------*/
-function loadArtifact(file) {
+function loadArtifact(index) {
 
-    console.log("Loading:", file);
+    const data = artifacts[index];
+
+    if (!data) return;
+
+    const filePath = "GLBS/" + data.file;
+
+    console.log("Loading:", filePath);
 
     if (currentModel) {
         scene.remove(currentModel);
     }
 
     loader.load(
-        file,
+        filePath,
 
         (gltf) => {
 
@@ -105,7 +87,7 @@ function loadArtifact(file) {
 
             currentModel.position.sub(center);
 
-            // CAMERA AUTO FRAME
+            // CAMERA FIT
             const maxDim = Math.max(size.x, size.y, size.z);
 
             camera.position.set(
@@ -117,18 +99,13 @@ function loadArtifact(file) {
             controls.target.set(0, 0, 0);
             controls.update();
 
-            console.log("Loaded:", file);
+            console.log("Loaded:", filePath);
 
-            // UPDATE UI
-            const data = artifacts[file];
-
-            if (data) {
-                artifactName.textContent = data.name;
-                artifactClass.textContent = data.classification;
-                artifactLocation.textContent = data.location;
-                artifactNotes.textContent = data.notes;
-            }
-
+            // UI UPDATE
+            artifactName.textContent = data.name;
+            artifactClass.textContent = data.classification;
+            artifactLocation.textContent = data.location;
+            artifactNotes.textContent = data.notes;
         },
 
         undefined,
@@ -140,10 +117,41 @@ function loadArtifact(file) {
 }
 
 /* -----------------------------
+   LOAD MANIFEST
+------------------------------*/
+async function loadManifest() {
+
+    try {
+        const res = await fetch("GLBS/manifest.json");
+        artifacts = await res.json();
+
+        console.log("Manifest loaded:", artifacts);
+
+        // populate dropdown
+        select.innerHTML = "";
+
+        artifacts.forEach((a, i) => {
+
+            const option = document.createElement("option");
+            option.value = i;
+            option.textContent = a.name;
+
+            select.appendChild(option);
+        });
+
+        // load first artifact automatically
+        loadArtifact(0);
+
+    } catch (err) {
+        console.error("Failed to load manifest:", err);
+    }
+}
+
+/* -----------------------------
    DROPDOWN SWITCH
 ------------------------------*/
 select.addEventListener("change", (e) => {
-    loadArtifact(e.target.value);
+    loadArtifact(parseInt(e.target.value));
 });
 
 /* -----------------------------
@@ -178,4 +186,4 @@ animate();
 /* -----------------------------
    INIT
 ------------------------------*/
-loadArtifact("example.glb");
+loadManifest();
