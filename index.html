@@ -1,65 +1,56 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8" />
-  <title>Artifact Viewer - Field Console</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <title>Archaeology Archive</title>
 
-  <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css">
 
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
     }
-  }
-  </script>
+    </script>
 </head>
-
 <body>
 
-  <!-- Top HUD -->
-  <div id="hud">
-    <div class="title">FIELD ARCHAEOLOGY SYSTEM</div>
-    <div id="status">Initializing scanner...</div>
-  </div>
+<div id="sidebar">
 
-  <!-- Artifact Info Panel -->
-  <div id="panel">
-    <div class="panel-title">Artifact Data</div>
+    <h1>Archaeology Archive</h1>
 
-    <div class="row">
-      <span>Designation:</span>
-      <span>GLB-EXAMPLE-001</span>
-    </div>
+    <label>Artifact Scan</label>
 
-    <div class="row">
-      <span>Classification:</span>
-      <span>Unknown Construct</span>
-    </div>
+    <select id="artifactSelect">
+        <option value="example.glb">Example Artifact</option>
+        <option value="artifact2.glb">Artifact 2</option>
+        <option value="artifact3.glb">Artifact 3</option>
+    </select>
 
-    <div class="row">
-      <span>Material Scan:</span>
-      <span>In Progress</span>
-    </div>
+    <hr>
 
-    <div class="row">
-      <span>Integrity:</span>
-      <span>Stable</span>
-    </div>
+    <h2 id="artifactName">Example Artifact</h2>
 
-    <div class="divider"></div>
+    <p><strong>Classification:</strong></p>
+    <p id="artifactClass">Unknown Structure</p>
 
-    <div class="note">
-      “Recovered from digital strata layer. Origin uncertain. Structure suggests intentional fabrication rather than natural formation.”
-    </div>
-  </div>
+    <p><strong>Location:</strong></p>
+    <p id="artifactLocation">Excavation Site Alpha</p>
 
-  <!-- 3D VIEW -->
-  <canvas id="c"></canvas>
+    <p><strong>Notes:</strong></p>
+    <p id="artifactNotes">
+        Preliminary scans suggest artificial construction.
+    </p>
 
-</body>
+</div>
+
+<div id="viewer">
+    <canvas id="c"></canvas>
+</div>
 
 <script type="module" src="app.js"></script>
+
+</body>
 </html>
