@@ -1,79 +1,91 @@
-import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
-import { GLTFLoader } from "https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const statusEl = document.getElementById("status");
+
+function setStatus(msg) {
+  console.log(msg);
+  statusEl.textContent = msg;
+}
+
+const canvas = document.getElementById("c");
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x222222);
+scene.background = new THREE.Color(0x0b0a08);
 
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+camera.position.set(2, 2, 3);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+
+// lighting (warmer “museum lamp” tone)
+scene.add(new THREE.HemisphereLight(0xc9a46a, 0x1a1a1a, 1.2));
+
+const dir = new THREE.DirectionalLight(0xffe0b2, 1.2);
+dir.position.set(5, 10, 5);
+scene.add(dir);
+
+// dim grid (like excavation grid)
+const grid = new THREE.GridHelper(10, 10, 0x5a4630, 0x2a2118);
+grid.material.opacity = 0.25;
+grid.material.transparent = true;
+scene.add(grid);
+
+const loader = new GLTFLoader();
+
+let model;
+
+setStatus("Scanning digital strata...");
+
+loader.load(
+  "example.glb",
+  (gltf) => {
+    model = gltf.scene;
+    scene.add(model);
+
+    const box = new THREE.Box3().setFromObject(model);
+    const size = box.getSize(new THREE.Vector3()).length();
+    const center = box.getCenter(new THREE.Vector3());
+
+    model.position.sub(center);
+
+    camera.position.set(0, size * 0.2, size * 0.4);
+    controls.update();
+
+    setStatus("Artifact stabilized ✔");
+  },
+  (p) => {
+    if (p.total) {
+      setStatus(`Reconstructing... ${(p.loaded/p.total*100).toFixed(1)}%`);
+    }
+  },
+  (err) => {
+    console.error(err);
+    setStatus("SCAN FAILURE — artifact corrupted");
+  }
 );
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-// LIGHT
-scene.add(new THREE.AmbientLight(0xffffff, 1));
-
-camera.position.set(2, 2, 2);
-
-// UI debug element
-const debugBox = document.createElement("div");
-debugBox.style.position = "absolute";
-debugBox.style.bottom = "10px";
-debugBox.style.left = "10px";
-debugBox.style.color = "white";
-debugBox.style.background = "rgba(0,0,0,0.6)";
-debugBox.style.padding = "10px";
-document.body.appendChild(debugBox);
-
-function setDebug(msg) {
-  console.log(msg);
-  debugBox.innerText = msg;
-}
-
-const MODEL_PATH = "./example.glb";
-
-setDebug("Checking file: " + MODEL_PATH);
-
-// STEP 1 — pre-check if file exists (VERY IMPORTANT DEBUG STEP)
-fetch(MODEL_PATH, { method: "HEAD" })
-  .then((res) => {
-    if (!res.ok) {
-      throw new Error("HTTP " + res.status);
-    }
-    setDebug("File FOUND on server → loading model...");
-    loadModel();
-  })
-  .catch((err) => {
-    setDebug("MODEL NOT FOUND (404 or path issue): " + err.message);
-  });
-
-function loadModel() {
-  const loader = new GLTFLoader();
-
-  loader.load(
-    MODEL_PATH,
-    (gltf) => {
-      setDebug("MODEL LOADED SUCCESSFULLY ✔");
-      scene.add(gltf.scene);
-    },
-    (progress) => {
-      console.log("Loading progress:", progress);
-    },
-    (err) => {
-      console.error(err);
-      setDebug("GLTF LOAD FAILED (see console)");
-    }
-  );
-}
-
+// subtle “alive display” motion
 function animate() {
   requestAnimationFrame(animate);
+
+  if (model) {
+    model.rotation.y += 0.0015;
+  }
+
+  controls.update();
   renderer.render(scene, camera);
 }
 
 animate();
+
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});

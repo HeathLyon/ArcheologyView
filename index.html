@@ -1,29 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Archaeology 3D Viewer</title>
+  <meta charset="utf-8" />
+  <title>Artifact Viewer - Field Console</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="styles.css" />
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 
 <body>
-  <div id="ui">
-    <h2>Artifact Viewer</h2>
 
-    <div id="info">
-      <p><strong>Model:</strong> <span id="modelName">None</span></p>
-    </div>
-
-    <textarea id="notes" placeholder="Notes about artifact..."></textarea>
-
-    <button id="saveBtn">Save Note (WIP)</button>
+  <!-- Top HUD -->
+  <div id="hud">
+    <div class="title">FIELD ARCHAEOLOGY SYSTEM</div>
+    <div id="status">Initializing scanner...</div>
   </div>
 
-  <div id="viewer"></div>
+  <!-- Artifact Info Panel -->
+  <div id="panel">
+    <div class="panel-title">Artifact Data</div>
 
-  <!-- IMPORTANT: ES MODULE ENTRY POINT -->
-  <script type="module" src="./app.js"></script>
+    <div class="row">
+      <span>Designation:</span>
+      <span>GLB-EXAMPLE-001</span>
+    </div>
+
+    <div class="row">
+      <span>Classification:</span>
+      <span>Unknown Construct</span>
+    </div>
+
+    <div class="row">
+      <span>Material Scan:</span>
+      <span>In Progress</span>
+    </div>
+
+    <div class="row">
+      <span>Integrity:</span>
+      <span>Stable</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="note">
+      “Recovered from digital strata layer. Origin uncertain. Structure suggests intentional fabrication rather than natural formation.”
+    </div>
+  </div>
+
+  <!-- 3D VIEW -->
+  <canvas id="c"></canvas>
+
 </body>
+
+<script type="module" src="app.js"></script>
 </html>
