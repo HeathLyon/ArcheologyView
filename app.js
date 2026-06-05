@@ -80,6 +80,8 @@ function loadArtifact(index) {
             currentModel = gltf.scene;
             scene.add(currentModel);
 
+            currentModel.scale.set(2, 2, 2);
+
             // CENTER MODEL
             const box = new THREE.Box3().setFromObject(currentModel);
             const center = box.getCenter(new THREE.Vector3());
@@ -91,9 +93,9 @@ function loadArtifact(index) {
             const maxDim = Math.max(size.x, size.y, size.z);
 
             camera.position.set(
-                maxDim * 1.5,
-                maxDim * 1.2,
-                maxDim * 1.5
+                maxDim * 0.5,
+                maxDim * 0.3,
+                maxDim * .5,
             );
 
             controls.target.set(0, 0, 0);
