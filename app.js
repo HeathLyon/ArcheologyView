@@ -80,7 +80,7 @@ function loadArtifact(index) {
             currentModel = gltf.scene;
             scene.add(currentModel);
 
-            currentModel.scale.set(2, 2, 2);
+            currentModel.scale.set(1, 1, 1);
 
             // CENTER MODEL
             const box = new THREE.Box3().setFromObject(currentModel);
