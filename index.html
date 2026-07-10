@@ -1,8 +1,9 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Archaeology Archive</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BYU Archaeology Scan Archive</title>
 
     <link rel="stylesheet" href="styles.css">
 
@@ -16,41 +17,120 @@
     </script>
 </head>
 <body>
+    <aside id="sidebar">
+        <header class="sidebar-header">
+            <p class="eyebrow">BYU Archaeology</p>
+            <h1>Drone Scan Archive</h1>
+            <p class="intro">
+                Browse excavation areas and compare drone scans captured over time.
+            </p>
+        </header>
 
-<div id="sidebar">
+        <section class="control-section">
+            <h2 class="section-title">Excavation Area</h2>
 
-    <h1>Archaeology Archive</h1>
+            <label for="areaSelect">Area / Location</label>
+            <select id="areaSelect"></select>
 
-    <label>Artifact Scan</label>
+            <p id="areaDescription" class="description-text">Select an excavation area.</p>
+        </section>
 
-    <select id="artifactSelect">
-        <option value="example.glb">Example Artifact</option>
-        <option value="artifact2.glb">Artifact 2</option>
-        <option value="artifact3.glb">Artifact 3</option>
-    </select>
+        <section class="control-section">
+            <h2 class="section-title">Scan Timeline</h2>
 
-    <hr>
+            <label for="scanSelect">Scan Stage</label>
+            <select id="scanSelect"></select>
 
-    <h2 id="artifactName">Example Artifact</h2>
+            <div class="button-row timeline-buttons">
+                <button id="prevScanButton" type="button" class="secondary">Previous</button>
+                <button id="nextScanButton" type="button" class="secondary">Next</button>
+            </div>
 
-    <p><strong>Classification:</strong></p>
-    <p id="artifactClass">Unknown Structure</p>
+            <p id="timelineStatus" class="status-text">No scan selected.</p>
+        </section>
 
-    <p><strong>Location:</strong></p>
-    <p id="artifactLocation">Excavation Site Alpha</p>
+        <section class="control-section">
+            <h2 class="section-title">Compare Scans</h2>
 
-    <p><strong>Notes:</strong></p>
-    <p id="artifactNotes">
-        Preliminary scans suggest artificial construction.
-    </p>
+            <label class="checkbox-row">
+                <input id="stackToggle" type="checkbox">
+                <span>Stack all scans in this area</span>
+            </label>
 
-</div>
+            <p class="help-text">
+                Stack mode loads all scans from the selected area at once. This works best when the GLB files were exported with the same position, scale, and rotation.
+            </p>
 
-<div id="viewer">
-    <canvas id="c"></canvas>
-</div>
+            <label for="stackOpacity">Older Scan Opacity</label>
+            <input id="stackOpacity" type="range" min="0.1" max="0.9" step="0.05" value="0.35">
+            <p class="status-text">Opacity: <span id="stackOpacityValue">35%</span></p>
+        </section>
 
-<script type="module" src="app.js"></script>
+        <section class="control-section">
+            <h2 class="section-title">Camera Controls</h2>
 
+            <div class="button-row">
+                <button id="freeCamButton" type="button">Enter Free Cam</button>
+                <button id="resetViewButton" type="button" class="secondary">Reset View</button>
+            </div>
+
+            <label for="freeCamSpeed">Free Cam Speed</label>
+            <input id="freeCamSpeed" type="range" min="0.2" max="5" step="0.1" value="1.2">
+            <p class="status-text">Speed: <span id="freeCamSpeedValue">1.2x</span></p>
+
+            <div id="freeCamHelp" class="help-card" hidden>
+                <strong>Free cam controls</strong>
+                <span>Hold left mouse button and drag to look around.</span>
+                <span>W / A / S / D = move</span>
+                <span>Space = move up</span>
+                <span>C = move down</span>
+                <span>Shift = temporary speed boost</span>
+                <span>Esc = exit free cam</span>
+            </div>
+        </section>
+
+        <section class="metadata">
+            <h2 id="scanName">Select a scan</h2>
+
+            <dl>
+                <div>
+                    <dt>Classification</dt>
+                    <dd id="scanClass">—</dd>
+                </div>
+
+                <div>
+                    <dt>Location</dt>
+                    <dd id="scanLocation">—</dd>
+                </div>
+
+                <div>
+                    <dt>Stage</dt>
+                    <dd id="scanStage">—</dd>
+                </div>
+
+                <div>
+                    <dt>Scan Date</dt>
+                    <dd id="scanDate">—</dd>
+                </div>
+
+                <div>
+                    <dt>Notes</dt>
+                    <dd id="scanNotes">—</dd>
+                </div>
+            </dl>
+        </section>
+    </aside>
+
+    <main id="viewer">
+        <canvas id="c"></canvas>
+
+        <div id="loadingMessage" class="viewer-message">
+            Loading scan...
+        </div>
+
+        <div id="errorMessage" class="viewer-message error" hidden></div>
+    </main>
+
+    <script type="module" src="app.js"></script>
 </body>
 </html>

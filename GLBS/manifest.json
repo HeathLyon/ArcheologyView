@@ -1,85 +1,124 @@
-[
-  {
-    "file": "Site 15 TT6.glb",
-    "name": "Site 15 TT6",
-    "classification": "Unknown",
-    "location": "Excavation Site Alpha",
-    "notes": ""
-  },
-  {
-    "file": "Tt7 SU5 Rockfall.glb",
-    "name": "SU5 Rockfall",
-    "classification": "Unknown",
-    "location": "Unknown",
-    "notes": "Contains weathered markings."
-  },
-  {
-    "file": "TT7 closing shot of NE.glb",
-    "name": "TT7 closing shot of NE",
-    "classification": "Unknown",
-    "location": "Unknown",
-    "notes": "Material composition unknown."
-  },
-  {
-    "file": "TT7 Closing shot.glb",
-    "name": "  ",
-    "classification": "Unknown",
-    "location": "Unknown",
-    "notes": "  ."
-  },
-  {
-    "file": "Tt7 SU6.glb",
-    "name": "  ",
-    "classification": "Unknown",
-    "location": "Unknown",
-    "notes": "  "
-  },
-  {
-    "file": "Tt7 SU5 ",
-    "name": "  ",
-    "classification": "Unknown",
-    "location": "Unknown",
-    "notes": "  "
-  },
-  {
-    "file": "Tt7 SU6.glb",
-    "name": "  ",
-    "classification": "Unknown",
-    "location": "Unknown",
-    "notes": "  "
-  },  {
-    "file": "Tt7 SU7.glb",
-    "name": "TT7 closing shot of NE",
-    "classification": "Unknown",
-    "location": "Unknown",
-    "notes": "Material composition unknown."
-  },
-  {
-    "file": "Tt7 SU8.glb",
-    "name": "  ",
-    "classification": "Unknown",
-    "location": "Unknown",
-    "notes": "  ."
-  },
-  {
-    "file": "TT7 SU9.glb",
-    "name": "  ",
-    "classification": "Unknown",
-    "location": "Unknown",
-    "notes": "  "
-  },
-  {
-    "file": "TT8 closing shot.glb",
-    "name": "  ",
-    "classification": "Unknown",
-    "location": "Unknown",
-    "notes": "  "
-  },
-  {
-    "file": "TT8.glb",
-    "name": "  ",
-    "classification": "Unknown",
-    "location": "Unknown",
-    "notes": "  "
-  }
-]
+{
+  "areas": [
+    {
+      "id": "site-15-tt6",
+      "name": "Site 15 — TT6",
+      "description": "Scan group for Site 15, TT6.",
+      "scans": [
+        {
+          "file": "Site 15 TT6.glb",
+          "name": "Site 15 — TT6",
+          "classification": "Baseline Scan",
+          "location": "Site 15 / TT6",
+          "stage": "TT6 scan",
+          "date": "Unknown",
+          "notes": "Original scan record for Site 15 TT6."
+        }
+      ]
+    },
+    {
+      "id": "tt7",
+      "name": "TT7",
+      "description": "Scan progression and closing shots for TT7.",
+      "scans": [
+        {
+          "file": "Tt7 SU5 Rockfall.glb",
+          "name": "TT7 — SU5 Rockfall",
+          "classification": "Rockfall Detail Scan",
+          "location": "TT7",
+          "stage": "SU5 Rockfall",
+          "date": "Unknown",
+          "notes": "Rockfall scan. Contains weathered markings."
+        },
+        {
+          "file": "Tt7 SU5 ",
+          "name": "TT7 — SU5",
+          "classification": "Progress Scan",
+          "location": "TT7",
+          "stage": "SU5",
+          "date": "Unknown",
+          "notes": "Progress scan for SU5."
+        },
+        {
+          "file": "Tt7 SU6.glb",
+          "name": "TT7 — SU6",
+          "classification": "Progress Scan",
+          "location": "TT7",
+          "stage": "SU6",
+          "date": "Unknown",
+          "notes": "Progress scan for SU6."
+        },
+        {
+          "file": "Tt7 SU7.glb",
+          "name": "TT7 — SU7",
+          "classification": "Progress Scan",
+          "location": "TT7",
+          "stage": "SU7",
+          "date": "Unknown",
+          "notes": "Progress scan for SU7."
+        },
+        {
+          "file": "Tt7 SU8.glb",
+          "name": "TT7 — SU8",
+          "classification": "Progress Scan",
+          "location": "TT7",
+          "stage": "SU8",
+          "date": "Unknown",
+          "notes": "Progress scan for SU8."
+        },
+        {
+          "file": "TT7 SU9.glb",
+          "name": "TT7 — SU9",
+          "classification": "Progress Scan",
+          "location": "TT7",
+          "stage": "SU9",
+          "date": "Unknown",
+          "notes": "Progress scan for SU9."
+        },
+        {
+          "file": "TT7 closing shot of NE.glb",
+          "name": "TT7 — Closing Shot of NE",
+          "classification": "Closing Overview Scan",
+          "location": "TT7 / Northeast Area",
+          "stage": "Closing shot — Northeast",
+          "date": "Unknown",
+          "notes": "Closing overview scan of the northeast area."
+        },
+        {
+          "file": "TT7 closing shot of NE.glb",
+          "name": "TT7 — Closing Shot",
+          "classification": "Closing Overview Scan",
+          "location": "TT7",
+          "stage": "Closing shot",
+          "date": "Unknown",
+          "notes": "General closing overview scan for TT7."
+        }
+      ]
+    },
+    {
+      "id": "tt8",
+      "name": "TT8",
+      "description": "Scan group for TT8, including the main scan and closing shot.",
+      "scans": [
+        {
+          "file": "TT8.glb",
+          "name": "TT8 — Main Scan",
+          "classification": "Progress Scan",
+          "location": "TT8",
+          "stage": "Main scan",
+          "date": "Unknown",
+          "notes": "Main scan for TT8."
+        },
+        {
+          "file": "TT8 closing shot.glb",
+          "name": "TT8 — Closing Shot",
+          "classification": "Closing Overview Scan",
+          "location": "TT8",
+          "stage": "Closing shot",
+          "date": "Unknown",
+          "notes": "Closing overview scan for TT8."
+        }
+      ]
+    }
+  ]
+}
